@@ -1,5 +1,5 @@
 # 3M Stock (MMM) Analysis Dashboard
-Welcome to the 3M Stock (MMM) Analysis Dashboard, a comprehensive and interactive platform designed to provide valuable insights and risk metrics for investors interested in 3M stock. Our primary goal is to empower investors to make informed decisions by analyzing various risk factors associated with 3M stock, including Expected Shortfall, Value at Risk (VaR), and semi-deviation.
+Welcome to the 3M Stock (MMM) Analysis Dashboard, a comprehensive and interactive platform designed to provide valuable insights and risk metrics for investors interested in 3M stock. My primary goal is to empower investors to make informed decisions by analyzing various risk factors associated with 3M stock, including Expected Shortfall, Value at Risk (VaR), and semi-deviation.
 
 # Repository Structure
 In this repository, you will all the files and folders required to make my Dashboard:
