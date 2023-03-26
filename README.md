@@ -10,8 +10,9 @@ Contains the code for creating the interactive dashboard that displays the resul
 #### 2. script.sh:
 Hosts the script that automates the daily update of the dashboard with the latest stock data.
 #### 3. stock_price.txt:
-An overview of the data I used.
-#### 4. README.md: Provides an overview of the project and its components.
+Privdes an overview of the data I used.
+#### 4. README.md: P
+Provides an overview of the project and its components.
 
 # Methodology
 To provide a comprehensive analysis, we have employed several advanced techniques and methodologies:
