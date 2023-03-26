@@ -264,7 +264,7 @@ app.layout = html.Div(children=[
         dcc.Graph(id='3M-stock-price-graph', style={'width': '80%', 'height': '600px', 'margin': '0 auto'}),
         html.Div(children=[
             html.Div(children=[
-                html.H3('Current value', style={'textAlign': 'center', 'color': '#2C3E50'}),
+                html.H3('Current Price', style={'textAlign': 'center', 'color': '#2C3E50'}),
                 html.H2(id='current-value', style={'textAlign': 'center'}, children="${:,.2f}".format(df['Price'].iloc[-1]))
             ], className='card', style={'width': '100%', 'textAlign': 'center'}),
         ], className='row', style={'display': 'flex', 'justifyContent': 'center'}),
