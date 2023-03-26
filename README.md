@@ -6,7 +6,7 @@ In this repository, you will find all the files and folders required to make my 
 #### 1. app.py:
 Contains scripts for preprocessing and cleaning the 3M stock data.
 Includes the implementation of various risk metrics such as Expected Shortfall, Value at Risk, and semi-deviation.
-Contains the code for creating the interactive dashboard that displays the results of our analysis.
+Contains the code for creating the interactive dashboard that displays the results of my analysis.
 #### 2. script.sh:
 Hosts the script that automates the daily update of the dashboard with the latest stock data.
 #### 3. stock_price.txt:
