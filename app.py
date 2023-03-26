@@ -30,20 +30,20 @@ def generate_daily_report(open_price, close_price, min_price, max_price, mean_pr
     report = html.Div([
         html.H2(style={'textAlign': 'center', 'color': '#2C3E50'}),
         html.Table([
-            html.Tr([html.Td('Opening:'), html.Td(f'{open_price}$')]),
-            html.Tr([html.Td('Closing:'), html.Td(f'{close_price}$')]),
-            html.Tr([html.Td('+Highest:'), html.Td(f'{max_price}$')]),
-            html.Tr([html.Td('-Lowest:'), html.Td(f'{min_price}$')]),
-            html.Tr([html.Td('Average:'), html.Td(f'{round(mean_price,3)}$')]),
-            html.Tr([html.Td('Daily Change:'), html.Td(f'{daily_change}%')]),
-            html.Tr([html.Td('Weekly Change:'), html.Td(f'{daily_change_7d}%')]),
-            html.Tr([html.Td('Daily Volatility:'), html.Td(f'{round(vol_daily*100,3)}%')]),
-            html.Tr([html.Td('Weekly Volatility:'), html.Td(f'{round(vol_weekly*100,3)}%')]),
-            html.Tr([html.Td('Annualized Volatility:'), html.Td(f'{round(vol_anu*100,3)}%')]),
-            html.Tr([html.Td('Lower Semi-Deviation:'), html.Td(f'{round(l_sd*100,3)}%')]),
-            html.Tr([html.Td('Upper Semi-Deviation:'), html.Td(f'{round(u_sd*100,3)}%')]),
-            html.Tr([html.Td(f'Value at Risk (α={alpha}):'), html.Td(f'{round(x_dicho*100,3)}%')]),
-            html.Tr([html.Td(f'Expected Shortfall (α={alpha}):'), html.Td(f'{e_s}%')])
+            html.Tr([html.Td('Opening'), html.Td(f'{open_price}$')]),
+            html.Tr([html.Td('Closing'), html.Td(f'{close_price}$')]),
+            html.Tr([html.Td('+Highest'), html.Td(f'{max_price}$')]),
+            html.Tr([html.Td('-Lowest'), html.Td(f'{min_price}$')]),
+            html.Tr([html.Td('Average'), html.Td(f'{round(mean_price,3)}$')]),
+            html.Tr([html.Td('Daily Change'), html.Td(f'{daily_change}%')]),
+            html.Tr([html.Td('Weekly Change'), html.Td(f'{daily_change_7d}%')]),
+            html.Tr([html.Td('Daily Volatility'), html.Td(f'{round(vol_daily*100,3)}%')]),
+            html.Tr([html.Td('Weekly Volatility'), html.Td(f'{round(vol_weekly*100,3)}%')]),
+            html.Tr([html.Td('Annualized Volatility'), html.Td(f'{round(vol_anu*100,3)}%')]),
+            html.Tr([html.Td('Lower Semi-Deviation'), html.Td(f'{round(l_sd*100,3)}%')]),
+            html.Tr([html.Td('Upper Semi-Deviation'), html.Td(f'{round(u_sd*100,3)}%')]),
+            html.Tr([html.Td(f'Value at Risk (α={alpha})'), html.Td(f'{round(x_dicho*100,3)}%')]),
+            html.Tr([html.Td(f'Expected Shortfall (α={alpha})'), html.Td(f'{e_s}%')])
         ], style={'margin': '0 auto'}),
     ], style={'width': '60%', 'display': 'inline-block', 'vertical-align': 'top'})
     return report
