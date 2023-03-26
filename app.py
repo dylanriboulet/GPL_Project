@@ -26,6 +26,28 @@ df3 = df2[(df2['Date'].dt.dayofweek < 5)]
 
 df3.index = range(0, len(df3))
 
+def generate_daily_report(open_price, close_price, min_price, max_price, mean_price, daily_change, daily_change_7d, vol, x_dicho, vol_daily, vol_weekly, vol_anu, e_s, l_sd, u_sd, alpha):
+    report = html.Div([
+        html.H2(style={'textAlign': 'center', 'color': '#2C3E50'}),
+        html.Table([
+            html.Tr([html.Td('Opening:'), html.Td(f'{open_price}$')]),
+            html.Tr([html.Td('Closing:'), html.Td(f'{close_price}$')]),
+            html.Tr([html.Td('+Highest:'), html.Td(f'{max_price}$')]),
+            html.Tr([html.Td('-Lowest:'), html.Td(f'{min_price}$')]),
+            html.Tr([html.Td('Average:'), html.Td(f'{round(mean_price,3)}$')]),
+            html.Tr([html.Td('Daily Change:'), html.Td(f'{daily_change}%')]),
+            html.Tr([html.Td('Weekly Change:'), html.Td(f'{daily_change_7d}%')]),
+            html.Tr([html.Td('Daily Volatility:'), html.Td(f'{round(vol_daily*100,3)}%')]),
+            html.Tr([html.Td('Weekly Volatility:'), html.Td(f'{round(vol_weekly*100,3)}%')]),
+            html.Tr([html.Td('Annualized Volatility:'), html.Td(f'{round(vol_anu*100,3)}%')]),
+            html.Tr([html.Td('Lower Semi-Deviation:'), html.Td(f'{round(l_sd*100,3)}%')]),
+            html.Tr([html.Td('Upper Semi-Deviation:'), html.Td(f'{round(u_sd*100,3)}%')]),
+            html.Tr([html.Td(f'Value at Risk (α={alpha}):'), html.Td(f'{round(x_dicho*100,3)}%')]),
+            html.Tr([html.Td(f'Expected Shortfall (α={alpha}):'), html.Td(f'{e_s}%')])
+        ], style={'margin': '0 auto'}),
+    ], style={'width': '60%', 'display': 'inline-block', 'vertical-align': 'top'})
+    return report
+
 def update_daily_report():
     df = pd.read_csv('stock_price.txt', header=None, names=['Date', 'Price'])
     df['Date'] = pd.to_datetime(df['Date'])
@@ -35,7 +57,7 @@ def update_daily_report():
     time_high = datetime.time(22, 5, 0)
     filtered_time_df = df[(df['Date'].dt.time >= time_low) & (df['Date'].dt.time <= time_high)]
     
-    # Getting the last day with a time between 13:30:00 and 20:30:00
+    # Getting the last day with a time between 13:30:00 and 22:00:00
     last_day = filtered_time_df['Date'].dt.date.max()
     day_to_subtract = 7
     week_ago =last_day - datetime.timedelta(days=day_to_subtract)
@@ -68,6 +90,8 @@ def update_daily_report():
     close_price = filtered_last_day_df['Price'].iloc[-1]
     close_price_7d = filtered_last_day_df_7['Price'].iloc[-1]
     
+    min_price = filtered_last_day_df['Price'].min()
+    max_price = filtered_last_day_df['Price'].max()
     
     daily_change = round((close_price/open_price - 1)*100,2)
     daily_change_7d = round((close_price/open_price_7d - 1)*100,2)
@@ -216,29 +240,9 @@ def update_daily_report():
     e = it2/(1-alpha)
     e_s = round(e*100,3)
     
-    report = generate_daily_report(open_price, close_price, mean_price, daily_change, daily_change_7d, vol, x_dicho, vol_daily, vol_weekly, vol_anu, e_s, l_sd, u_sd, alpha)
+    report = generate_daily_report(open_price, close_price, min_price, max_price, mean_price, daily_change, daily_change_7d, vol, x_dicho, vol_daily, vol_weekly, vol_anu, e_s, l_sd, u_sd, alpha)
     return report
 
-
-def generate_daily_report(open_price, close_price, mean_price, daily_change, daily_change_7d, vol, x_dicho, vol_daily, vol_weekly, vol_anu, e_s, l_sd, u_sd, alpha):
-    report = html.Div([
-        html.H2(style={'textAlign': 'center', 'color': '#2C3E50'}),
-        html.Table([
-            html.Tr([html.Td('Opening Price:'), html.Td(f'{open_price}$')]),
-            html.Tr([html.Td('Closing Price:'), html.Td(f'{close_price}$')]),
-            html.Tr([html.Td('Average Price:'), html.Td(f'{round(mean_price,3)}$')]),
-            html.Tr([html.Td('Daily Change:'), html.Td(f'{daily_change}%')]),
-            html.Tr([html.Td('Weekly Change:'), html.Td(f'{daily_change_7d}%')]),
-            html.Tr([html.Td('Daily Volatility:'), html.Td(f'{round(vol_daily*100,3)}%')]),
-            html.Tr([html.Td('Weekly Volatility:'), html.Td(f'{round(vol_weekly*100,3)}%')]),
-            html.Tr([html.Td('Annualized Volatility:'), html.Td(f'{round(vol_anu*100,3)}%')]),
-            html.Tr([html.Td('Lower Semi-Deviation:'), html.Td(f'{round(l_sd*100,3)}%')]),
-            html.Tr([html.Td('Upper Semi-Deviation:'), html.Td(f'{round(u_sd*100,3)}%')]),
-            html.Tr([html.Td(f'Value at Risk (α={alpha}):'), html.Td(f'{round(x_dicho*100,3)}%')]),
-            html.Tr([html.Td(f'Expected Shortfall (α={alpha}):'), html.Td(f'{e_s}%')])
-        ], style={'margin': '0 auto'}),
-    ], style={'width': '60%', 'display': 'inline-block', 'vertical-align': 'top'})
-    return report
 
 def time_until_next_10pm():
     now = datetime.datetime.now()
