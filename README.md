@@ -15,7 +15,7 @@ Privdes an overview of the data I used.
 Provides an overview of the project and its components.
 
 # Methodology
-To provide a comprehensive analysis, we have employed several advanced techniques and methodologies:
+To provide a comprehensive analysis, I have employed several advanced techniques and methodologies:
 
 ### Non-parametric VaR: 
 I have used the Epanechnikov Kernel to implement the non-parametric VaR, which offers a more flexible and robust approach to assessing potential losses.
