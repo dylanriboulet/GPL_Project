@@ -1,5 +1,7 @@
 This file is updated every 5 minutes on My Virtual Machine using a cron.
 
+*/5 * * * * /home/dylanriboulet/script.sh
+
 Here some datas of the file:
 
 
