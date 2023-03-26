@@ -7,12 +7,12 @@ In this repository, you will all the files and folders required to make my Dashb
 # Methodology
 To provide a comprehensive analysis, we have employed several advanced techniques and methodologies:
 
-## Non-parametric VaR: 
+### Non-parametric VaR: 
 I have used the Epanechnikov Kernel to implement the non-parametric VaR, which offers a more flexible and robust approach to assessing potential losses.
-## Annualized Volatility: 
+### Annualized Volatility: 
 I have calculated the annualized volatility using the Hurst exponent, which takes into account the long-term memory of the time series and provides a more accurate measure of the stock's volatility.
 
-## Trading Hours Data: 
+### Trading Hours Data: 
 The analysis is based solely on data collected during trading hours, specifically between Monday and Friday, and between the Opening and Closing Prices. This ensures that the risk metrics are more representative of the actual trading dynamics.
 
 
