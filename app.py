@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Mar 25 22:13:46 2023
-
-@author: dylan
-"""
 
 import dash
 import dash_core_components as dcc
@@ -32,7 +27,7 @@ df3 = df2[(df2['Date'].dt.dayofweek < 5)]
 df3.index = range(0, len(df3))
 
 def update_daily_report():
-    df = pd.read_csv('C:/Users/dylan/OneDrive/Documents/stock_price.txt', header=None, names=['Date', 'Price'])
+    df = pd.read_csv('stock_price.txt', header=None, names=['Date', 'Price'])
     df['Date'] = pd.to_datetime(df['Date'])
     
     # Filtering the DataFrame for the given time range
