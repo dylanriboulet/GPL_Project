@@ -11,7 +11,9 @@ Contains the code for creating the interactive dashboard that displays the resul
 Hosts the script that automates the daily update of the dashboard with the latest stock data.
 #### 3. stock_price.txt:
 Provides an overview of how I made my stock datas file.
-#### 4. README.md: 
+#### 4. dashboard.md:
+Provides a direct access to the 3M Stock (MMM) Analysis Dashboard
+#### 5. README.md: 
 Provides an overview of the project and its components.
 
 # Methodology
