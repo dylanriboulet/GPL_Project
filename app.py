@@ -26,7 +26,7 @@ df3 = df2[(df2['Date'].dt.dayofweek < 5)]
 
 df3.index = range(0, len(df3))
 
-def generate_daily_report(open_price, close_price, min_price, max_price, mean_price, daily_change, daily_change_7d, vol, x_dicho, vol_daily, vol_weekly, vol_anu, e_s, l_sd, u_sd, alpha):
+def generate_daily_report(open_price, close_price, min_price, max_price, mean_price, daily_change, daily_change_7d, vol, x_dicho, vol_daily, vol_anu, e_s, l_sd, u_sd, alpha):
     report = html.Div([
         html.H2(style={'textAlign': 'center', 'color': '#2C3E50'}),
         html.Table([
@@ -38,7 +38,6 @@ def generate_daily_report(open_price, close_price, min_price, max_price, mean_pr
             html.Tr([html.Td('Daily Change'), html.Td(f'{daily_change}%')]),
             html.Tr([html.Td('Weekly Change'), html.Td(f'{daily_change_7d}%')]),
             html.Tr([html.Td('Daily Volatility'), html.Td(f'{round(vol_daily*100,3)}%')]),
-            html.Tr([html.Td('Weekly Volatility'), html.Td(f'{round(vol_weekly*100,3)}%')]),
             html.Tr([html.Td('Annualized Volatility'), html.Td(f'{round(vol_anu*100,3)}%')]),
             html.Tr([html.Td('Lower Semi-Deviation'), html.Td(f'{round(l_sd*100,3)}%')]),
             html.Tr([html.Td('Upper Semi-Deviation'), html.Td(f'{round(u_sd*100,3)}%')]),
@@ -149,12 +148,11 @@ def update_daily_report():
     
     def annualize_volatility(data, hurst):
         std_daily = np.std(data)
-        return std_daily, std_daily*(pow(252,hurst)), std_daily*(pow(52,hurst))
+        return std_daily, std_daily*(pow(252,hurst))
     
     vola = annualize_volatility(returns, hurst)
     vol_daily = vola[0]
     vol_anu = vola[1]
-    vol_weekly = vola[2]
     
     # VaR non-paramétrique
     
@@ -206,7 +204,7 @@ def update_daily_report():
             x = (start + end) / 2
         return x
     
-    alpha = 0.95
+    1_alpha = 0.95
     start = 0
     end = 1
     epsilon = 10**(-10)
@@ -233,7 +231,7 @@ def update_daily_report():
         sum = sum + (dichotomy_method(F, a, start, end, epsilon) + dichotomy_method(F, b, start, end, epsilon)) / 2.0
         return h2 * sum
     
-    a = alpha
+    a = 1_alpha
     b = 1
     n2 = 100
     it2 = trapezoidal_method(F, a, b, n2)
@@ -277,7 +275,7 @@ app.layout = html.Div(children=[
     
     html.Div(style={'display': 'flex', 'justifyContent': 'center'}, children=[
         html.Div([
-            html.H2('Risk and Performance Indicators', style={'textAlign': 'center', 'color': '#2C3E50'}),
+            html.H2('Risk and Performance Metrics', style={'textAlign': 'center', 'color': '#2C3E50'}),
             html.Div(id='daily-report', children=update_daily_report(), style={'textAlign': 'center'}),
             dcc.Interval(id='daily-report-update', interval=time_until_next_10pm() * 1000, max_intervals=-1),
         ], style={'width': '40%', 'display': 'inline-block', 'vertical-align': 'top', 'backgroundColor': '#EBF5FB', 'textAlign': 'center', 'justifyContent': 'center', 'alignItems': 'center'}),
