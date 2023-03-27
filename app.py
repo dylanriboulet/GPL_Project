@@ -53,10 +53,10 @@ def update_daily_report():
     
     # Filtering the DataFrame for the given time range
     time_low = datetime.time(13, 30, 0)
-    time_high = datetime.time(22, 5, 0)
+    time_high = datetime.time(20, 5, 0)
     filtered_time_df = df[(df['Date'].dt.time >= time_low) & (df['Date'].dt.time <= time_high)]
     
-    # Getting the last day with a time between 13:30:00 and 22:00:00
+    # Getting the last day with a time between 13:30:00 and 20:00:00
     last_day = filtered_time_df['Date'].dt.date.max()
     day_to_subtract = 7
     week_ago =last_day - datetime.timedelta(days=day_to_subtract)
@@ -242,12 +242,12 @@ def update_daily_report():
     return report
 
 
-def time_until_next_10pm():
+def time_until_next_8pm():
     now = datetime.datetime.now()
-    next_10pm = now.replace(hour=22, minute=0, second=0, microsecond=0)
-    if now.hour >= 22:
-        next_10pm += datetime.timedelta(days=1)
-    time_until = next_10pm - now
+    next_8pm = now.replace(hour=20, minute=0, second=0, microsecond=0)
+    if now.hour >= 20:
+        next_8pm += datetime.timedelta(days=1)
+    time_until = next_8pm - now
     return time_until.total_seconds()
 
 
@@ -277,7 +277,7 @@ app.layout = html.Div(children=[
         html.Div([
             html.H2('Risk and Performance Metrics', style={'textAlign': 'center', 'color': '#2C3E50'}),
             html.Div(id='daily-report', children=update_daily_report(), style={'textAlign': 'center'}),
-            dcc.Interval(id='daily-report-update', interval=time_until_next_10pm() * 1000, max_intervals=-1),
+            dcc.Interval(id='daily-report-update', interval=time_until_next_8pm() * 1000, max_intervals=-1),
         ], style={'width': '40%', 'display': 'inline-block', 'vertical-align': 'top', 'backgroundColor': '#EBF5FB', 'textAlign': 'center', 'justifyContent': 'center', 'alignItems': 'center'}),
     ]),
 ])
