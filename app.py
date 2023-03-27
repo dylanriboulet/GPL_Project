@@ -8,6 +8,7 @@ import pandas as pd
 import datetime
 import plotly.graph_objs as go
 # Load data from CSV file
+last_report = None
 global df 
 df = pd.read_csv('stock_price.txt', header=None, names=['Date', 'Price'])
 df['Date'] = pd.to_datetime(df['Date'])
@@ -32,8 +33,8 @@ def generate_daily_report(open_price, close_price, min_price, max_price, mean_pr
         html.Table([
             html.Tr([html.Td('Opening'), html.Td(f'{open_price}$')]),
             html.Tr([html.Td('Closing'), html.Td(f'{close_price}$')]),
-            html.Tr([html.Td('+Highest'), html.Td(f'{max_price}$')]),
-            html.Tr([html.Td('-Lowest'), html.Td(f'{min_price}$')]),
+            html.Tr([html.Td('Highest'), html.Td(f'{max_price}$')]),
+            html.Tr([html.Td('Lowest'), html.Td(f'{min_price}$')]),
             html.Tr([html.Td('Average'), html.Td(f'{round(mean_price,3)}$')]),
             html.Tr([html.Td('Daily Change'), html.Td(f'{daily_change}%')]),
             html.Tr([html.Td('Weekly Change'), html.Td(f'{daily_change_7d}%')]),
@@ -41,13 +42,14 @@ def generate_daily_report(open_price, close_price, min_price, max_price, mean_pr
             html.Tr([html.Td('Annualized Volatility'), html.Td(f'{round(vol_anu*100,3)}%')]),
             html.Tr([html.Td('Lower Semi-Deviation'), html.Td(f'{round(l_sd*100,3)}%')]),
             html.Tr([html.Td('Upper Semi-Deviation'), html.Td(f'{round(u_sd*100,3)}%')]),
-            html.Tr([html.Td(f'Value at Risk (α={alpha})'), html.Td(f'{round(x_dicho*100,3)}%')]),
-            html.Tr([html.Td(f'Expected Shortfall (α={alpha})'), html.Td(f'{e_s}%')])
+            html.Tr([html.Td(f'Value at Risk (α=5%)'), html.Td(f'{round(x_dicho*100,3)}%')]),
+            html.Tr([html.Td(f'Expected Shortfall (α=5%)'), html.Td(f'{e_s}%')])
         ], style={'margin': '0 auto'}),
     ], style={'width': '60%', 'display': 'inline-block', 'vertical-align': 'top'})
     return report
 
 def update_daily_report():
+    global last_report
     df = pd.read_csv('stock_price.txt', header=None, names=['Date', 'Price'])
     df['Date'] = pd.to_datetime(df['Date'])
     
@@ -238,7 +240,8 @@ def update_daily_report():
     e = it2/(1-alpha)
     e_s = round(e*100,3)
     
-    report = generate_daily_report(open_price, close_price, min_price, max_price, mean_price, daily_change, daily_change_7d, vol, x_dicho, vol_daily, vol_weekly, vol_anu, e_s, l_sd, u_sd, alpha)
+    report = generate_daily_report(open_price, close_price, min_price, max_price, mean_price, daily_change, daily_change_7d, vol, x_dicho, vol_daily, vol_anu, e_s, l_sd, u_sd, alpha)
+    last_report = report
     return report
 
 
@@ -248,7 +251,7 @@ def time_until_next_8pm():
     if now.hour >= 20:
         next_8pm += datetime.timedelta(days=1)
     time_until = next_8pm - now
-    return time_until.total_seconds()
+    return time_until.total_seconds()*1000
 
 
 app = dash.Dash(__name__, external_stylesheets=['https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css'])
@@ -272,12 +275,12 @@ app.layout = html.Div(children=[
             n_intervals=0
         )
     ]),
-    
+    html.Div(id='last-daily-report', children=last_report, style={'textAlign': 'center'}),
     html.Div(style={'display': 'flex', 'justifyContent': 'center'}, children=[
         html.Div([
             html.H2('Risk and Performance Metrics', style={'textAlign': 'center', 'color': '#2C3E50'}),
             html.Div(id='daily-report', children=update_daily_report(), style={'textAlign': 'center'}),
-            dcc.Interval(id='daily-report-update', interval=time_until_next_8pm() * 1000, max_intervals=-1),
+            dcc.Interval(id='daily-report-update', interval=time_until_next_8pm(), max_intervals=-1),
         ], style={'width': '40%', 'display': 'inline-block', 'vertical-align': 'top', 'backgroundColor': '#EBF5FB', 'textAlign': 'center', 'justifyContent': 'center', 'alignItems': 'center'}),
     ]),
 ])
@@ -285,9 +288,13 @@ app.layout = html.Div(children=[
 
 
 @app.callback(Output('daily-report', 'children'),
-              Input('daily-report-update', 'n_intervals'))
+                              Input('daily-report-update', 'n_intervals'))
 def update_report(n):
-    return update_daily_report()
+            global last_report
+            if last_report is not None:
+                return last_report
+            else:
+                return update_daily_report()
 
 
 @app.callback(
