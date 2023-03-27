@@ -204,7 +204,7 @@ def update_daily_report():
             x = (start + end) / 2
         return x
     
-    1_alpha = 0.95
+    alpha = 0.95
     start = 0
     end = 1
     epsilon = 10**(-10)
@@ -231,7 +231,7 @@ def update_daily_report():
         sum = sum + (dichotomy_method(F, a, start, end, epsilon) + dichotomy_method(F, b, start, end, epsilon)) / 2.0
         return h2 * sum
     
-    a = 1_alpha
+    a = alpha
     b = 1
     n2 = 100
     it2 = trapezoidal_method(F, a, b, n2)
