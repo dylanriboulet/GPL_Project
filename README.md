@@ -29,7 +29,7 @@ The analysis is based solely on data collected during trading hours, specificall
 
 
 # Daily Report Updates
-To keep the 3M Stock Analysis Dashboard up-to-date, I automatically update the platform with the latest stock data every day at 22:00 (10 PM on my Dashboard which is at 12 PM in France). By updating the data after the Closing Price is determined, I ensure that my risk metrics and analysis are always based on the most recent and relevant information.
+To keep the 3M Stock Analysis Dashboard up-to-date, I automatically update the platform with the latest stock data every day at 8 PM UTC−4 (10 PM in France). By updating the data after the Closing Price is determined, I ensure that my risk metrics and analysis are always based on the most recent and relevant information.
 
 # Contributing
 I welcome contributions and suggestions from the community to improve and expand the capabilities of the 3M Stock Analysis Dashboard. Feel free to submit issues, pull requests, or reach out to me directly if you have any ideas or recommendations.
